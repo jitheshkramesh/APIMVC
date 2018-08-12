@@ -1,0 +1,44 @@
+﻿
+@{
+    ViewBag.Title = "Country Master";
+    Layout = "~/Views/Shared/SubTheme.cshtml";
+}
+
+@*<h2>CountryMaster</h2>*@
+<div>
+    @using (Html.BeginForm("CountryMaster", "Home", FormMethod.Post))
+    {
+        <div class="container top5">
+            <div class="row">
+                <div class="pt-md-2 pl-md-3 col-md-12 col-xs-12">
+                    <div class="col-md-3 col-xs-3 inner">Country Code :</div>
+                    <div class="col-md-3 col-xs-3 inner">
+                        @*<input id="txtCode" type="text" />*@
+                        <textarea name="txtCode" style="width:100px;" rows="1" cols="1"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="pt-md-2 pl-md-3 col-md-12 col-xs-12">
+                    <div class="col-md-3 col-xs-3 inner">Country Name :</div>
+                    <div class="col-md-3 col-xs-3 inner">
+                        <textarea name="txtName" style="width:100px;" rows="1" cols="1"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="pt-md-2 pl-md-3 col-md-12 col-xs-12">
+                    <div class="col-md-3 col-xs-3 inner">Currency Code :</div>
+                    <div class="col-md-3 col-xs-3 inner">
+                        <textarea name="txtCurrency" style="width:100px;" rows="1" cols="1"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="pt-md-2 pl-md-3 col-md-12 col-xs-12">
+                    <input id="btnSubmit" type="submit" value="Submit" />
+                </div>
+            </div>
+        </div>
+    }
+</div>

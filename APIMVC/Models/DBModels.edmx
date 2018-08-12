@@ -1,0 +1,139 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="OVODModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'OVOD.dbo.ANG_EMPLOYEE' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="ANG_EMPLOYEE">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="250" />
+          <Property Name="gender" Type="varchar" MaxLength="25" />
+          <Property Name="email" Type="varchar" MaxLength="250" />
+          <Property Name="PhoneNumber" Type="int" />
+          <Property Name="ContactPreference" Type="varchar" MaxLength="25" />
+          <Property Name="dateofBirth" Type="datetime" />
+          <Property Name="department" Type="varchar" MaxLength="250" />
+          <Property Name="isActive" Type="bit" />
+          <Property Name="PhotoPath" Type="varchar" MaxLength="250" />
+          <Property Name="password" Type="varchar" MaxLength="25" />
+        </EntityType>
+        <EntityType Name="DESIGNATION">
+          <Key>
+            <PropertyRef Name="DG_ID" />
+          </Key>
+          <Property Name="DG_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DG_CD" Type="varchar" MaxLength="8" />
+          <Property Name="DG_DESCRIPTION" Type="varchar" MaxLength="150" />
+        </EntityType>
+        <EntityContainer Name="OVODModelStoreContainer">
+          <EntitySet Name="DESIGNATION" EntityType="Self.DESIGNATION" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ANG_EMPLOYEE" EntityType="Self.ANG_EMPLOYEE" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [ANG_EMPLOYEE].[id] AS [id], 
+    [ANG_EMPLOYEE].[name] AS [name], 
+    [ANG_EMPLOYEE].[gender] AS [gender], 
+    [ANG_EMPLOYEE].[email] AS [email], 
+    [ANG_EMPLOYEE].[PhoneNumber] AS [PhoneNumber], 
+    [ANG_EMPLOYEE].[ContactPreference] AS [ContactPreference], 
+    [ANG_EMPLOYEE].[dateofBirth] AS [dateofBirth], 
+    [ANG_EMPLOYEE].[department] AS [department], 
+    [ANG_EMPLOYEE].[isActive] AS [isActive], 
+    [ANG_EMPLOYEE].[PhotoPath] AS [PhotoPath], 
+    [ANG_EMPLOYEE].[password] AS [password]
+    FROM [dbo].[ANG_EMPLOYEE] AS [ANG_EMPLOYEE]</DefiningQuery>
+          </EntitySet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="OVODModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="DESIGNATION">
+          <Key>
+            <PropertyRef Name="DG_ID" />
+          </Key>
+          <Property Name="DG_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DG_CD" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="DG_DESCRIPTION" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityContainer Name="dbModel" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="DESIGNATIONs" EntityType="Self.DESIGNATION" />
+          <EntitySet Name="ANG_EMPLOYEE" EntityType="OVODModel.ANG_EMPLOYEE" />
+        </EntityContainer>
+        <EntityType Name="ANG_EMPLOYEE">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="gender" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="email" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="PhoneNumber" Type="Int32" />
+          <Property Name="ContactPreference" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="dateofBirth" Type="DateTime" Precision="3" />
+          <Property Name="department" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="isActive" Type="Boolean" />
+          <Property Name="PhotoPath" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="password" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="OVODModelStoreContainer" CdmEntityContainer="dbModel">
+          <EntitySetMapping Name="DESIGNATIONs">
+            <EntityTypeMapping TypeName="OVODModel.DESIGNATION">
+              <MappingFragment StoreEntitySet="DESIGNATION">
+                <ScalarProperty Name="DG_ID" ColumnName="DG_ID" />
+                <ScalarProperty Name="DG_CD" ColumnName="DG_CD" />
+                <ScalarProperty Name="DG_DESCRIPTION" ColumnName="DG_DESCRIPTION" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ANG_EMPLOYEE">
+            <EntityTypeMapping TypeName="OVODModel.ANG_EMPLOYEE">
+              <MappingFragment StoreEntitySet="ANG_EMPLOYEE">
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="PhotoPath" ColumnName="PhotoPath" />
+                <ScalarProperty Name="isActive" ColumnName="isActive" />
+                <ScalarProperty Name="department" ColumnName="department" />
+                <ScalarProperty Name="dateofBirth" ColumnName="dateofBirth" />
+                <ScalarProperty Name="ContactPreference" ColumnName="ContactPreference" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="gender" ColumnName="gender" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
