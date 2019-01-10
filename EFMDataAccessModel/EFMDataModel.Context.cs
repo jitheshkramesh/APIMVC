@@ -18,6 +18,8 @@ namespace EFMDataAccessModel
         public OVODEntities()
             : base("name=OVODEntities")
         {
+            this.Configuration.LazyLoadingEnabled = false;
+            this.Configuration.ProxyCreationEnabled = false;
         }
     
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
@@ -25,6 +27,9 @@ namespace EFMDataAccessModel
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<TTMAST> TTMASTs { get; set; }
+        public virtual DbSet<HD_HRPAYADJ> HD_HRPAYADJ { get; set; }
         public virtual DbSet<ANG_EMPLOYEE> ANG_EMPLOYEE { get; set; }
+        public virtual DbSet<DT_HRPAYADJ> DT_HRPAYADJ { get; set; }
     }
 }

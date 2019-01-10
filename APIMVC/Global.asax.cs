@@ -31,6 +31,8 @@ using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 using APIMVC.Helper_Code.Common;
+using System.Data.Entity;
+
 namespace APIMVC
 {
     public class WebApiApplication : System.Web.HttpApplication
@@ -45,6 +47,10 @@ namespace APIMVC
 
             // API authorization registration.    
             //GlobalConfiguration.Configuration.MessageHandlers.Add(new AuthorizationHeaderHandler());
+            GlobalConfiguration.Configuration.Formatters.JsonFormatter.SerializerSettings
+                .ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+            GlobalConfiguration.Configuration.Formatters
+                .Remove(GlobalConfiguration.Configuration.Formatters.XmlFormatter);
         }
     }
 }

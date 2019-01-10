@@ -4,24 +4,32 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.IO;
 using EFMDataAccessModel;
+using System.Web;
 using System.Web.Http.Cors;
 
 namespace APIMVC.Controllers
 {
+    
     [EnableCors(origins: "http://localhost:4200", headers: "*", methods: "*")]
     public class AngEFMController : ApiController
     {
-
-        public HttpResponseMessage GetANG_EMPLOYEEs(string gender="All")
+        OVODEntities DB=new OVODEntities();
+        public AngEFMController() {
+            DB.Configuration.ProxyCreationEnabled = false;
+        }
+        public HttpResponseMessage GetANG_EMPLOYEEs(string gender = "All")
         {
-            using (OVODEntities entities = new OVODEntities()) {
-                switch (gender.ToLower()) {
+            using (OVODEntities entities = new OVODEntities())
+            {
+                switch (gender.ToLower())
+                {
                     case "all":
                         return Request.CreateResponse(HttpStatusCode.OK, entities.ANG_EMPLOYEE.ToList());
                     case "male":
-                        return Request.CreateResponse(HttpStatusCode.OK, 
-                            entities.ANG_EMPLOYEE.Where(e=>e.gender.ToLower()=="male").ToList());
+                        return Request.CreateResponse(HttpStatusCode.OK,
+                            entities.ANG_EMPLOYEE.Where(e => e.gender.ToLower() == "male").ToList());
                     case "female":
                         return Request.CreateResponse(HttpStatusCode.OK,
                             entities.ANG_EMPLOYEE.Where(e => e.gender.ToLower() == "female").ToList());
@@ -38,12 +46,13 @@ namespace APIMVC.Controllers
         {
             using (OVODEntities entities = new OVODEntities())
             {
-                var entity =entities.ANG_EMPLOYEE.FirstOrDefault(e => e.id == id);
+                var entity = entities.ANG_EMPLOYEE.FirstOrDefault(e => e.id == id);
                 if (entities != null)
                 {
                     return Request.CreateResponse(HttpStatusCode.OK, entity);
                 }
-                else {
+                else
+                {
                     return Request.CreateErrorResponse(HttpStatusCode.NotFound, "Employee id: " + id.ToString() + " not found");
                 }
 
@@ -70,6 +79,14 @@ namespace APIMVC.Controllers
         {
             try
             {
+                string imageName = null;
+                var httpRequest = System.Web.HttpContext.Current.Request;
+                var postedFile = httpRequest.Files["Image"];
+                imageName = new string(Path.GetFileNameWithoutExtension(postedFile.FileName).Take(10).ToArray()).Replace(" ", "-");
+                imageName = imageName + DateTime.Now.ToString("yymmssfff") + Path.GetExtension(postedFile.FileName);
+                var filePath = HttpContext.Current.Server.MapPath("~/Image/" + imageName);
+                postedFile.SaveAs(imageName);
+
                 using (OVODEntities entities = new OVODEntities())
                 {
                     var entity = entities.ANG_EMPLOYEE.FirstOrDefault(e => e.id == employee.id);
@@ -83,14 +100,15 @@ namespace APIMVC.Controllers
                         entity.isActive = employee.isActive;
                         entity.password = employee.password;
                         entity.PhoneNumber = employee.PhoneNumber;
-                        entity.PhotoPath = employee.PhotoPath;
+                        //entity.PhotoPath = employee.PhotoPath;
+                        entity.PhotoPath = imageName;
                         entity.gender = employee.gender;
                         entity.email = employee.email;
                         entity.department = employee.department;
                         entity.dateofBirth = employee.dateofBirth;
                         entity.ContactPreference = employee.ContactPreference;
                         entities.SaveChanges();
-                        return Request.CreateResponse(HttpStatusCode.OK,entity);
+                        return Request.CreateResponse(HttpStatusCode.OK, entity);
                     }
                 }
             }
@@ -115,7 +133,7 @@ namespace APIMVC.Controllers
                     {
                         entities.ANG_EMPLOYEE.Remove(entity);
                         entities.SaveChanges();
-                        return Request.CreateResponse(HttpStatusCode.OK,entity);
+                        return Request.CreateResponse(HttpStatusCode.OK, entity);
                     }
                 }
             }
@@ -129,12 +147,36 @@ namespace APIMVC.Controllers
         {
             try
             {
+                //string imageName = null;
+                //var httpRequest = System.Web.HttpContext.Current.Request;
+                //var postedFile = httpRequest.Files["Image"];
+                //imageName = new string(Path.GetFileNameWithoutExtension(postedFile.FileName).Take(10).ToArray()).Replace(" ", "_");
+                //imageName = imageName + DateTime.Now.ToString("yymmssfff") + Path.GetExtension(postedFile.FileName);
+                //postedFile.SaveAs(imageName);
+
+                //if (eMPLOYEE.Image != null)
+                //{
+
+
+                //    //eMPLOYEE.Image.SaveAs(Path.Combine(filePath));
+
+                //}
                 using (OVODEntities entities = new OVODEntities())
                 {
+                    //eMPLOYEE.PhotoPath = imageName;
                     entities.ANG_EMPLOYEE.Add(eMPLOYEE);
                     entities.SaveChanges();
-                    return Request.CreateResponse(HttpStatusCode.OK);
                 }
+                //if (eMPLOYEE.Image != null)
+                //{
+                //    imageName = Path.GetFileNameWithoutExtension(eMPLOYEE.Image.FileName);
+                //    string imageExtn = Path.GetExtension(eMPLOYEE.Image.FileName);
+                //    imageName = imageName + DateTime.Now.ToString("yymmssfff") + imageExtn;
+                //    var filePath = HttpContext.Current.Server.MapPath("~/Image/" + imageName);
+                //    eMPLOYEE.Image.SaveAs(Path.Combine(filePath));
+                //}
+                return Request.CreateResponse(HttpStatusCode.OK);
+
             }
             catch (Exception ex)
             {
@@ -142,7 +184,50 @@ namespace APIMVC.Controllers
             }
         }
 
+        [HttpPost]
+        [Route("api/UploadImage")]
+        public HttpResponseMessage UploadImage()
+        {
+            string ImageName = null;
+            int EmpId;
+            var httpRequest = HttpContext.Current.Request;
+            var PostedFile = httpRequest.Files["Image"];
+            ImageName = new string(Path.GetFileNameWithoutExtension(PostedFile.FileName).Take(10).ToArray()).Replace(" ", "_");
+            ImageName = ImageName + DateTime.Now.ToString("yymmssfff") + Path.GetExtension(PostedFile.FileName);
+            var filePath = HttpContext.Current.Server.MapPath("~/Image/" + ImageName);
+            PostedFile.SaveAs(filePath);
+            EmpId = Convert.ToInt32(httpRequest["EmployeeId"]);
+
+            using (OVODEntities entities = new OVODEntities())
+            {
+                var entity = entities.ANG_EMPLOYEE.FirstOrDefault(e => e.id == EmpId);
+                if (entity == null)
+                {
+                    return Request.CreateErrorResponse(HttpStatusCode.NotFound, "Employee id: " + EmpId.ToString() + " not found to update.");
+                }
+                else
+                {
+                    entity.PhotoPath = ImageName;
+                    entities.SaveChanges();
+                    return Request.CreateResponse(HttpStatusCode.Created);
+                }
+            }
+        }
+
+        [HttpGet]
+        [Route("api/TTList")]
+        public HttpResponseMessage TTList()
+        {
+            using (OVODEntities entities = new OVODEntities())
+            {
+                return Request.CreateResponse(HttpStatusCode.OK, entities.TTMASTs.ToList());
+            }
+        }
+
+
     }
 
-    
 }
+
+    
+

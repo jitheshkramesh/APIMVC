@@ -42,6 +42,7 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -54,6 +55,9 @@
       <DependentUpon>EFMDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Class1.cs" />
+    <Compile Include="DT_HRPAYADJ.cs">
+      <DependentUpon>EFMDataModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="EFMDataModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -69,7 +73,13 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>EFMDataModel.edmx</DependentUpon>
     </Compile>
+    <Compile Include="HD_HRPAYADJ.cs">
+      <DependentUpon>EFMDataModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TTMAST.cs">
+      <DependentUpon>EFMDataModel.tt</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EntityDeploy Include="EFMDataModel.edmx">
