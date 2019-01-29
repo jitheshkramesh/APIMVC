@@ -27,6 +27,7 @@ namespace AngApp
         public string PA_YEAR { get; set; }
         public Nullable<System.DateTime> PA_DOCDATE { get; set; }
         public string PA_DOCNO { get; set; }
+        public Nullable<decimal> GTOTAL { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DT_HRPAYADJ> DT_HRPAYADJ { get; set; }

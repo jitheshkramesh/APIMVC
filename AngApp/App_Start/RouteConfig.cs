@@ -16,7 +16,9 @@ namespace AngApp
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
-                defaults: new { controller = "App", action = "Index", id = UrlParameter.Optional }
+                //defaults: new { controller = "Medical", action = "Index", id = UrlParameter.Optional }
+                //defaults: new { controller = "App", action = "Index", id = UrlParameter.Optional }
+                defaults: new { controller = "Item", action = "Index", id = UrlParameter.Optional }
             );
         }
     }

@@ -14,13 +14,15 @@ using System.Linq.Dynamic;
 using System.IO;
 using System.Web.Optimization;
 using System.Net.Http;
-
+using PagedList;
+using PagedList.Mvc;
 
 namespace AngApp.Controllers
 {
     //[Authorize]
     public class HomeController : Controller
     {
+        OVODEntities5 _context = new OVODEntities5();
         public CodeDb db = new CodeDb();
         public ActionResult Index()
         {
@@ -65,9 +67,9 @@ namespace AngApp.Controllers
             DataTable dt = new DataTable();
             if (ModelState.IsValid)
             {
-                                //if (user.IsGrid(user.INV_NUM))
+                //if (user.IsGrid(user.INV_NUM))
                 dt = db.IsValid(user.UserName, user.Password);
-                if (dt.Rows.Count>0)
+                if (dt.Rows.Count > 0)
                 {
                     FormsAuthentication.SetAuthCookie(user.UserName, user.RememberMe);
                     Session["username"] = user.UserName;
@@ -382,7 +384,7 @@ namespace AngApp.Controllers
         }
         string COMPCD = "001";
 
-        public ActionResult EmployeeSave(string Code="")
+        public ActionResult EmployeeSave(string Code = "")
         {
             return View();
         }
@@ -394,7 +396,7 @@ namespace AngApp.Controllers
             return View(EmpDetals);
         }
 
-        public ActionResult MastEmpDetSave(string Code ,string name, EMPSAL[] salary)
+        public ActionResult MastEmpDetSave(string Code, string name, EMPSAL[] salary)
         {
             int EmpId;
             OVODEntities5 db = new OVODEntities5();
@@ -407,7 +409,7 @@ namespace AngApp.Controllers
                 //model.EM_DOJ = DateTime.Now;
                 //db.EMPLOYEEs.Add(model);
 
-                EmpId =(db.EMPLOYEEs.SingleOrDefault(EMPLOYEEs => EMPLOYEEs.EM_CODE == Code).EM_ID);
+                EmpId = (db.EMPLOYEEs.SingleOrDefault(EMPLOYEEs => EMPLOYEEs.EM_CODE == Code).EM_ID);
                 if (EmpId > 0)
                 {
                     foreach (var item in salary)
@@ -682,6 +684,119 @@ namespace AngApp.Controllers
             HttpResponseMessage response = GlobalVariables.webApiClient.GetAsync("Designations").Result;
             EmpDesg = response.Content.ReadAsAsync<IEnumerable<EmpDesignation>>().Result;
             return View(EmpDesg);
+        }
+
+        public ActionResult Doc_Emp_details(string SearchBy, string search,int?Page)
+        {
+            //Doc_Emp_DetailsVM model = new Doc_Emp_DetailsVM();
+            //model.Doc_History = _context.Doc_History.ToList();
+            //return View(model);
+            if (SearchBy == "EmpId")
+            {
+                Doc_Emp_DetailsVM model = new Doc_Emp_DetailsVM
+                {
+                    Doc_History = _context.Doc_History
+                    .Where(z => z.emp_Id.ToString()
+                    .Contains(search) || search == null)
+                    .ToList().ToPagedList(Page ?? 1, 3)
+                };
+                return View(model);
+            }
+            else
+            {
+                Doc_Emp_DetailsVM model = new Doc_Emp_DetailsVM
+                {
+                    Doc_History = _context.Doc_History
+                    .Where(z => z.doc_no
+                    .Contains(search) || search == null)
+                    .ToList().ToPagedList(Page ?? 1, 3)
+                };
+                return View(model);
+            }
+        }
+
+        [HttpPost]
+        public ActionResult Doc_Emp_details(Doc_Emp_DetailsVM model, HttpPostedFileBase doc_file)
+        {
+            var updDate = DateTime.Now;
+            var _context = new OVODEntities5();
+            if (model.emp_id > 0)
+            {
+                Emp_Doc_History emp = new Emp_Doc_History()
+                {
+                    emp_id = model.emp_id,
+                    doc_id = model.doc_id,
+                    doc_no = model.doc_no,
+                    doc_issue_date = model.doc_issue_date,
+                    doc_expiry_date = model.doc_expiry_date,
+                    update_date = updDate
+                };
+
+                Doc_History doc = new Doc_History()
+                {
+                    emp_Id = model.emp_id,
+                    doc_id = model.doc_id,
+                    update_date = updDate,
+                    doc_no = model.doc_no,
+                    doc_issue_date = model.doc_issue_date,
+                    doc_expiry_date = model.doc_expiry_date
+                };
+                if (doc_file != null)
+                {
+                    emp.dof_file = new byte[doc_file.ContentLength];
+                    doc_file.InputStream.Read(emp.dof_file, 0, doc_file.ContentLength);
+                    doc.dof_file = emp.dof_file;
+                }
+                _context.Emp_Doc_History.Add(emp);
+                _context.Doc_History.Add(doc);
+                _context.SaveChanges();
+                ViewBag.message = "Record Saved Successfully";
+            }
+
+            //return View("Doc_Emp_details");
+            return RedirectToAction("Doc_Emp_details", "Home");
+        }
+
+        //public ActionResult EmpDocSearch(string SearchBy, string search)
+        //{
+        //    if (SearchBy == "EmpId")
+        //    {
+        //        Doc_Emp_DetailsVM model = new Doc_Emp_DetailsVM();
+        //        model.Doc_History = _context.Doc_History
+        //            .Where(z => z.emp_Id.ToString().Contains(search))
+        //            .ToList();
+        //        return View(model);
+        //    }
+        //    else {
+        //        Doc_Emp_DetailsVM model = new Doc_Emp_DetailsVM();
+        //        model.Doc_History = _context.Doc_History
+        //            .Where(z=>z.doc_no.Contains(search))
+        //            .ToList();
+        //        return View(model);
+        //    }
+        //}
+
+        [HttpPost]
+        public JsonResult AutoCompleteEmployee(string prefix)
+        {
+            if (prefix == null)
+                prefix = "";
+
+            prefix = prefix.ToLower();
+            var employees = (from employee in _context.ANG_EMPLOYEE
+                             where (employee.name.ToString().ToLower().Contains(prefix) || employee.id.ToString().Contains(prefix))
+                             select new
+                             {
+                                 label = employee.id.ToString() + " / " + employee.name,
+                                 val = employee.id.ToString()
+                             }).ToList();
+
+            return Json(employees);
+        }
+
+        public JsonResult Ang_Employeedetailasjson(int id)
+        {
+            return Json(_context.ANG_EMPLOYEE.Where(e => e.id == id).FirstOrDefault(), JsonRequestBehavior.AllowGet);
         }
 
     }

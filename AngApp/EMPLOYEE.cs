@@ -18,7 +18,6 @@ namespace AngApp
         public EMPLOYEE()
         {
             this.EMPSALs = new HashSet<EMPSAL>();
-            this.DT_HRPAYADJ = new HashSet<DT_HRPAYADJ>();
         }
     
         public int EM_ID { get; set; }
@@ -54,7 +53,5 @@ namespace AngApp
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<EMPSAL> EMPSALs { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<DT_HRPAYADJ> DT_HRPAYADJ { get; set; }
     }
 }

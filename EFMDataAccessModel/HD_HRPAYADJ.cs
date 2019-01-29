@@ -11,8 +11,7 @@ namespace EFMDataAccessModel
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations.Schema;
-
+    
     public partial class HD_HRPAYADJ
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -29,10 +28,7 @@ namespace EFMDataAccessModel
         public Nullable<System.DateTime> PA_DOCDATE { get; set; }
         public string PA_DOCNO { get; set; }
         public Nullable<decimal> GTOTAL { get; set; }
-
-        [NotMapped]
-        public string DeletedPayAdjdIds { get; set; }
-
+    
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DT_HRPAYADJ> DT_HRPAYADJ { get; set; }
     }

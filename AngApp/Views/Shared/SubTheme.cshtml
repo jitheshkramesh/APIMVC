@@ -10,7 +10,7 @@
     <link rel="shortcut icon" href="img/favicon.png">
 
     <title>EMS - @ViewBag.Title </title>
-
+    
     <link href="~/BSTheme/css/bootstrap-datepicker.css" rel="stylesheet" />
     <!-- Bootstrap CSS -->
     <link href="~/BSTheme/css/bootstrap.min.css" rel="stylesheet">
@@ -35,28 +35,37 @@
     <link href="~/BSTheme/css/style-responsive.css" rel="stylesheet" />
     <link href="~/BSTheme/css/xcharts.min.css" rel=" stylesheet">
     <link href="~/BSTheme/css/jquery-ui-1.10.4.min.css" rel="stylesheet">
+    <link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
     <!-- =======================================================
       Theme Name: NiceAdmin
       Theme URL: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/
       Author: BootstrapMade
       Author URL: https://bootstrapmade.com
     ======================================================= -->
-    <base href="/">
+    @*commented 2019/01/27*@
+    @*<base href="/">
 
-    <script src="../node_modules/core-js/client/shim.min.js"></script>
-    <script src="../node_modules/zone.js/dist/zone.js"></script>
-    <script src="../node_modules/systemjs/dist/system.src.js"></script>
-    <script src="../Client/systemjs.config.js"></script>
-    <script>
-        System.import('../Client/main.js').catch(function (err) { console.error(err); });
-    </script>
+        <script src="../node_modules/core-js/client/shim.min.js"></script>
+        <script src="../node_modules/zone.js/dist/zone.js"></script>
+        <script src="../node_modules/systemjs/dist/system.src.js"></script>
+        <script src="../Client/systemjs.config.js"></script>
+        <script>
+            System.import('../Client/main.js').catch(function (err) { console.error(err); });
+        </script>*@
 
     <script src="../Scripts/jquery-3.3.1.min.js"></script>
     <script src="../Scripts/bootstrap.min.js"></script>
     @*<link href="../Content/bootstrap.min.css" rel="stylesheet" />*@
     <link href="~/Content/alertifyjs/alertify.min.css" rel="stylesheet" />
     <link href="~/Content/alertifyjs/themes/default.min.css" rel="stylesheet" />
+    <link href="~/Content/Site.css" rel="stylesheet" />
+    <script type="text/javascript">
+        $(function () {
+            $("input:text.date").datepicker({ dateFormat: "dd/mm/yy" });
+        })
+    </script>
 
+  
 </head>
 
 <body>
@@ -290,7 +299,7 @@
                             <span class="profile-ava">
                                 @if (!String.IsNullOrEmpty((string)Session["EmpName"]))
                                 {
-                                <img alt="" style="width:20px;height:20px" src="@Url.Content(Session["ImagePath"].ToString())">
+                                    <img alt="" style="width:20px;height:20px" src="@Url.Content(Session["ImagePath"].ToString())">
                                 }
                                 else
                                 {
@@ -301,14 +310,16 @@
                                 @if (!String.IsNullOrEmpty((string)Session["EmpName"]))
                                 {
                                     <span>@Session["EmpName"]</span>
-                                } else { 
+                                }
+                                else
+                                {
                                     <span>Dhara Jithesh</span>
                                 }
-                                                    </span>
-                            <b class="caret"></b>
+                            </span>
+                            @*<b class="caret"></b>*@
                         </a>
                         <ul class="dropdown-menu extended logout">
-                            <div class="log-arrow-up"></div>
+                            <ul class="log-arrow-up"></ul>
                             <li class="eborder-top">
                                 <a href="#"><i class="icon_profile"></i> My Profile</a>
                             </li>
@@ -343,6 +354,7 @@
                             <span>Dashboard</span>
                         </a>
                     </li>
+
                     <li class="sub-menu">
                         <a href="javascript:;" class="">
                             <i class="icon_document_alt"></i>
@@ -353,9 +365,11 @@
                             <li>@Html.ActionLink("Country Master", "CountryMaster", "Home")</li>
                             <li>@Html.ActionLink("Department Master", "DepartmentMaster", "Home")</li>
                             <li>@Html.ActionLink("Designation Master", "AddorEdit", "Designation")</li>
-                            <li>@Html.ActionLink("Employee Master Old", "Employee", "Home")</li>
+                            @*<li>@Html.ActionLink("Employee Master Old", "Employee", "Home")</li>*@
                             <li>@Html.ActionLink("Employee Master", "EmployeeSave", "Home")</li>
                             <li>@Html.ActionLink("Employee Salary", "MasterEmployeeDetails", "Home")</li>
+                            <li>@Html.ActionLink("Document History", "Doc_Emp_details", "Home")</li>
+                            <li>@Html.ActionLink("Item Master", "Index", "Item")</li>
                         </ul>
                     </li>
                     <li class="sub-menu">
@@ -379,7 +393,7 @@
                             <li>@Html.ActionLink("Department List", "DepartmentList", "Home")</li>
                             <li>@Html.ActionLink("Designation List (API)", "Index", "Designation")</li>
                             @*<li>@Html.ActionLink("Employee List Old", "EmployeeList", "Home")</li>
-                <li>@Html.ActionLink("Employee List", "", "Home")</li>*@
+                                <li>@Html.ActionLink("Employee List", "", "Home")</li>*@
                             <li>@Html.ActionLink("Employee List JQuery", "GetEmployeeLstJQuery", "Home")</li>
                             <li>@Html.ActionLink("Multiple Data", "MulitpleData", "Home")</li>
                         </ul>
@@ -426,30 +440,30 @@
                         </ul>
                     </li>
                     @*<li>
-            <a class="" href="widgets.html">
-                <i class="icon_genius"></i>
-                <span>Widgets</span>
-            </a>
-        </li>
-        <li>
-            <a class="" href="chart-chartjs.html">
-                <i class="icon_piechart"></i>
-                <span>Charts</span>
+                            <a class="" href="widgets.html">
+                                <i class="icon_genius"></i>
+                                <span>Widgets</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="" href="chart-chartjs.html">
+                                <i class="icon_piechart"></i>
+                                <span>Charts</span>
 
-            </a>
+                            </a>
 
-        </li>
+                        </li>
 
-        <li class="sub-menu">
-            <a href="javascript:;" class="">
-                <i class="icon_table"></i>
-                <span>Tables</span>
-                <span class="menu-arrow arrow_carrot-right"></span>
-            </a>
-            <ul class="sub">
-                <li><a class="" href="basic_table.html">Basic Table</a></li>
-            </ul>
-        </li>*@
+                        <li class="sub-menu">
+                            <a href="javascript:;" class="">
+                                <i class="icon_table"></i>
+                                <span>Tables</span>
+                                <span class="menu-arrow arrow_carrot-right"></span>
+                            </a>
+                            <ul class="sub">
+                                <li><a class="" href="basic_table.html">Basic Table</a></li>
+                            </ul>
+                        </li>*@
 
                     <li class="sub-menu">
                         <a href="javascript:;" class="">
@@ -458,12 +472,14 @@
                             <span class="menu-arrow arrow_carrot-right"></span>
                         </a>
                         <ul class="sub">
-                            <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                            <li>@Html.ActionLink("About", "About", "Home")</li>
-                            <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                            @*<li>@Html.ActionLink("Home", "Index", "Home")</li>
+                                <li>@Html.ActionLink("About", "About", "Home")</li>
+                                <li>@Html.ActionLink("Contact", "Contact", "Home")</li>*@
                             <li>@Html.ActionLink("Asp Grig", "Sales", "Grid")</li>
                             <li>@Html.ActionLink("Sync Grid", "SyncSales", "Grid")</li>
                             <li>@Html.ActionLink("Bar Chart", "jsDashBoard", "Home")</li>
+                            <li>@Html.ActionLink("Diagnosis", "GetDiagnosis", "Medical")</li>
+                            <li>@Html.ActionLink("Drug", "GetDrug", "Medical")</li>
                         </ul>
                     </li>
 
@@ -598,8 +614,14 @@
         });
     </script>
 
+    <div class="loaderbody" id="loaderbody">
+        <div class="loader"></div>
+    </div>
     <script src="~/Scripts/alertify.min.js"></script>
+    <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.9/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
     @RenderSection("scripts", required: false)
+    <script src="~/Scripts/Scripts.js"></script>
 </body>
 
 </html>

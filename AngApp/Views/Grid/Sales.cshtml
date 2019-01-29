@@ -1,7 +1,7 @@
 ﻿
 @{
     ViewBag.Title = "Sales";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/SubTheme.cshtml";
     WebGrid grid = new WebGrid(Model, rowsPerPage: 10);
 }
 
@@ -10,8 +10,8 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title>Sales</title>
-    <style type="text/css">
+    @*<title>Sales</title>*@
+    @*<style type="text/css">
         .webGrid {
             margin: 4px;
             border-collapse: collapse;
@@ -50,7 +50,7 @@
         .namewidth {
             width: 450px;
         }
-    </style>
+    </style>*@
 </head>
 <body>
     <div>
@@ -64,14 +64,14 @@
     </div>
     <div>
 
-        <h2>Grid</h2>
+        @*<h2>Grid</h2>*@
     @grid.GetHtml(
 
     tableStyle: "table", // applying style on grid
 
     fillEmptyRows: true,
-                //show empty row when there is only one record on page to it will display all empty rows there.
-    headerStyle: "header", //applying style.
+    //show empty row when there is only one record on page to it will display all empty rows there.
+    //headerStyle: "header", //applying style.
 
     footerStyle: "grid-footer", //applying style.
 
@@ -91,7 +91,7 @@
         grid.Column("CUST_NAME","Name",canSort:true,style:"namewidth"),
         grid.Column("NETAMT"),
         grid.Column(format: (item) => Html.ActionLink("Edit", "INV_NUM", new { id = item.INV_NUM })),
-        grid.Column("INV_NUM", format: (item) => Html.ActionLink((string)item.INV_NUM.ToString(), "dtg", new { id = item.INV_NUM }))
+        grid.Column("Action", format: (item) => Html.ActionLink((string)item.INV_NUM.ToString(), "dtg", new { id = item.INV_NUM }))
 
    })
     </div>

@@ -15,16 +15,15 @@ namespace AngApp
     public partial class DT_HRPAYADJ
     {
         public int PAD_ID { get; set; }
-        public Nullable<int> PA_ID { get; set; }
-        public Nullable<int> EM_ID { get; set; }
-        public Nullable<int> TT_ID { get; set; }
+        public int PA_ID { get; set; }
+        public int EM_ID { get; set; }
+        public int TT_ID { get; set; }
         public Nullable<decimal> PAD_QTY { get; set; }
         public Nullable<decimal> PAD_RATE { get; set; }
         public Nullable<decimal> PAD_AMT { get; set; }
         public string PAD_REMARKS { get; set; }
     
-        public virtual EMPLOYEE EMPLOYEE { get; set; }
-        public virtual TTMAST TTMAST { get; set; }
         public virtual HD_HRPAYADJ HD_HRPAYADJ { get; set; }
+        public virtual TTMAST TTMAST { get; set; }
     }
 }

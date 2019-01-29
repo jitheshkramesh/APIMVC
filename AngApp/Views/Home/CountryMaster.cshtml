@@ -3,42 +3,66 @@
     ViewBag.Title = "Country Master";
     Layout = "~/Views/Shared/SubTheme.cshtml";
 }
+<style>
+    .margin-top-05 {
+        margin-top: 0.5em;
+    }
 
+    .margin-top-10 {
+        margin-top: 1.0em;
+    }
+
+    .margin-top-15 {
+        margin-top: 1.5em;
+    }
+
+    .margin-top-20 {
+        margin-top: 2.0em;
+    }
+
+    .margin-top-25 {
+        margin-top: 2.5em;
+    }
+
+    .margin-top-30 {
+        margin-top: 3.0em;
+    }
+</style>
 @*<h2>CountryMaster</h2>*@
 <div>
     @using (Html.BeginForm("CountryMaster", "Home", FormMethod.Post))
     {
-        <div class="container top5">
-            <div class="row">
-                <div class="pt-md-2 pl-md-3 col-md-12 col-xs-12">
-                    <div class="col-md-3 col-xs-3 inner">Country Code :</div>
-                    <div class="col-md-3 col-xs-3 inner">
-                        @*<input id="txtCode" type="text" />*@
-                        <textarea name="txtCode" style="width:100px;" rows="1" cols="1"></textarea>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="pt-md-2 pl-md-3 col-md-12 col-xs-12">
-                    <div class="col-md-3 col-xs-3 inner">Country Name :</div>
-                    <div class="col-md-3 col-xs-3 inner">
-                        <textarea name="txtName" style="width:100px;" rows="1" cols="1"></textarea>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="pt-md-2 pl-md-3 col-md-12 col-xs-12">
-                    <div class="col-md-3 col-xs-3 inner">Currency Code :</div>
-                    <div class="col-md-3 col-xs-3 inner">
-                        <textarea name="txtCurrency" style="width:100px;" rows="1" cols="1"></textarea>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="pt-md-2 pl-md-3 col-md-12 col-xs-12">
-                    <input id="btnSubmit" type="submit" value="Submit" />
+    <div class="container top5">
+        <div class="row margin-top-05">
+            <div class="col-md-12">
+                <div class="col-md-2">Country Code :</div>
+                <div class="col-md-10">
+                    @*<input id="txtCode" type="text" />*@
+                    <input name="txtCode" type="text" class="form-control" />
                 </div>
             </div>
         </div>
+        <div class="row margin-top-05">
+            <div class="col-md-12">
+                <div class="col-md-2">Country Name :</div>
+                <div class="col-md-10">
+                    <input name="txtName" class="form-control" />
+                </div>
+            </div>
+        </div>
+        <div class="row margin-top-05">
+            <div class="col-md-12">
+                <div class="col-md-2">Currency Code :</div>
+                <div class="col-md-10">
+                    <input name="txtCurrency" class="form-control" />
+                </div>
+            </div>
+        </div>
+        <div class="row margin-top-05">
+            <div class="col-md-offset-2 col-md-10">
+                <input id="btnSubmit" type="submit" value="Submit" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
     }
 </div>

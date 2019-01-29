@@ -1,13 +1,13 @@
 ﻿
 @{
     ViewBag.Title = "SyncSales";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/SubTheme.cshtml";
     WebGrid grid = new WebGrid(Model, rowsPerPage: 10);
 }
 
 <head>
-    .
-    <title>Syncfussion Sales</title>
+    @*.
+    <title>Syncfussion Sales</title>*@
     <style type="text/css">
         .webGrid {
             margin: 4px;
@@ -89,7 +89,7 @@
     </div>
     <div>
 
-        <h2>Grid</h2>
+        @*<h2>Grid</h2>*@
 
         @*@section ScriptReferenceSection{
                 <script src="@Url.Content("~/Scripts/cultures/ej.culture.en-US.min.js")"></script>

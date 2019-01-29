@@ -19,7 +19,8 @@ namespace AngApp
 
        static GlobalVariables()
         {
-            webApiClient.BaseAddress = new Uri("http://localhost:58953/api");
+            webApiClient.BaseAddress = new Uri("http://localhost/APIMVC/");
+            //webApiClient.BaseAddress = new Uri("http://jitheshmvcapi.us-west-2.elasticbeanstalk.com/");
             webApiClient.DefaultRequestHeaders.Clear();
             webApiClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             webApiClient.DefaultRequestHeaders.Add("X-APIKEY","MyRandomApiKeyValue");

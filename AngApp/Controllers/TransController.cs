@@ -30,7 +30,8 @@ namespace AngApp.Controllers
         public ActionResult De_PayrollAdj(string DocNo="")
         {
             List<HD_HRPAYADJ> payadjh = new List<HD_HRPAYADJ>();
-            if (DocNo != "") {
+            if (DocNo != "")
+            {
                 OVODEntities5 oe = new OVODEntities5();
                 var v = (from a in oe.VW_HD_HRPAYADJ
                          where a.PA_DOCNO.Equals(DocNo)
@@ -242,6 +243,10 @@ namespace AngApp.Controllers
 
         }
 
-
+        [HttpGet]
+        public ActionResult Invoice()
+        {
+            return View();
+        }
     }
 }
