@@ -7,6 +7,7 @@
       <Diagram DiagramId="f8d29d29eb7044c58dcbec83332c9e4d" Name="Diagram1">
         <EntityTypeShape EntityType="OVODModel.DESIGNATION" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="OVODModel.ANG_EMPLOYEE" Width="1.5" PointX="3.375" PointY="0.75" />
+        <EntityTypeShape EntityType="OVODModel.PASSWORD" Width="1.5" PointX="0.75" PointY="3.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

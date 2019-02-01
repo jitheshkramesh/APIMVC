@@ -5,7 +5,7 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="d7d99863fd1e402cbc0585560559e3d3" Name="Diagram1" ZoomLevel="66">
-        <EntityTypeShape EntityType="OVODModel.TTMAST" Width="1.5" PointX="0.75" PointY="6.625" />
+        <EntityTypeShape EntityType="OVODModel.TTMAST" Width="1.5" PointX="10" PointY="6.125" />
         <EntityTypeShape EntityType="OVODModel.HD_HRPAYADJ" Width="1.5" PointX="0.75" PointY="11.25" />
         <EntityTypeShape EntityType="OVODModel.ANG_EMPLOYEE" Width="1.5" PointX="5.375" PointY="1" />
         <EntityTypeShape EntityType="OVODModel.DT_HRPAYADJ" Width="1.5" PointX="3" PointY="8.75" />

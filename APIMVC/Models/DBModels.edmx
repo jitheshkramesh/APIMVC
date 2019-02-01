@@ -5,8 +5,6 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="OVODModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'OVOD.dbo.ANG_EMPLOYEE' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="ANG_EMPLOYEE">
           <Key>
             <PropertyRef Name="id" />
@@ -31,23 +29,24 @@ warning 6002: The table/view 'OVOD.dbo.ANG_EMPLOYEE' does not have a primary key
           <Property Name="DG_CD" Type="varchar" MaxLength="8" />
           <Property Name="DG_DESCRIPTION" Type="varchar" MaxLength="150" />
         </EntityType>
+        <EntityType Name="PASSWORD">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="username" Type="varchar" MaxLength="50" />
+          <Property Name="passwd" Type="varchar" MaxLength="50" />
+          <Property Name="EmpName" Type="varchar" MaxLength="150" />
+          <Property Name="FilePath" Type="varchar" MaxLength="500" />
+          <Property Name="Compcd" Type="varchar" MaxLength="3" />
+          <Property Name="EmpCode" Type="varchar" MaxLength="10" />
+          <Property Name="email" Type="varchar" MaxLength="200" />
+          <Property Name="EmpLastName" Type="varchar" MaxLength="200" />
+        </EntityType>
         <EntityContainer Name="OVODModelStoreContainer">
+          <EntitySet Name="ANG_EMPLOYEE" EntityType="Self.ANG_EMPLOYEE" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DESIGNATION" EntityType="Self.DESIGNATION" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="ANG_EMPLOYEE" EntityType="Self.ANG_EMPLOYEE" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [ANG_EMPLOYEE].[id] AS [id], 
-    [ANG_EMPLOYEE].[name] AS [name], 
-    [ANG_EMPLOYEE].[gender] AS [gender], 
-    [ANG_EMPLOYEE].[email] AS [email], 
-    [ANG_EMPLOYEE].[PhoneNumber] AS [PhoneNumber], 
-    [ANG_EMPLOYEE].[ContactPreference] AS [ContactPreference], 
-    [ANG_EMPLOYEE].[dateofBirth] AS [dateofBirth], 
-    [ANG_EMPLOYEE].[department] AS [department], 
-    [ANG_EMPLOYEE].[isActive] AS [isActive], 
-    [ANG_EMPLOYEE].[PhotoPath] AS [PhotoPath], 
-    [ANG_EMPLOYEE].[password] AS [password]
-    FROM [dbo].[ANG_EMPLOYEE] AS [ANG_EMPLOYEE]</DefiningQuery>
-          </EntitySet>
+          <EntitySet Name="PASSWORD" EntityType="Self.PASSWORD" Schema="dbo" store:Type="Tables" />
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
@@ -64,6 +63,7 @@ warning 6002: The table/view 'OVOD.dbo.ANG_EMPLOYEE' does not have a primary key
         <EntityContainer Name="dbModel" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="DESIGNATIONs" EntityType="Self.DESIGNATION" />
           <EntitySet Name="ANG_EMPLOYEE" EntityType="OVODModel.ANG_EMPLOYEE" />
+          <EntitySet Name="PASSWORDs" EntityType="OVODModel.PASSWORD" />
         </EntityContainer>
         <EntityType Name="ANG_EMPLOYEE">
           <Key>
@@ -80,6 +80,20 @@ warning 6002: The table/view 'OVOD.dbo.ANG_EMPLOYEE' does not have a primary key
           <Property Name="isActive" Type="Boolean" />
           <Property Name="PhotoPath" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
           <Property Name="password" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="PASSWORD">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="username" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="passwd" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="EmpName" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="FilePath" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="Compcd" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="EmpCode" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="email" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="EmpLastName" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -109,6 +123,21 @@ warning 6002: The table/view 'OVOD.dbo.ANG_EMPLOYEE' does not have a primary key
                 <ScalarProperty Name="email" ColumnName="email" />
                 <ScalarProperty Name="gender" ColumnName="gender" />
                 <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PASSWORDs">
+            <EntityTypeMapping TypeName="OVODModel.PASSWORD">
+              <MappingFragment StoreEntitySet="PASSWORD">
+                <ScalarProperty Name="EmpLastName" ColumnName="EmpLastName" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="EmpCode" ColumnName="EmpCode" />
+                <ScalarProperty Name="Compcd" ColumnName="Compcd" />
+                <ScalarProperty Name="FilePath" ColumnName="FilePath" />
+                <ScalarProperty Name="EmpName" ColumnName="EmpName" />
+                <ScalarProperty Name="passwd" ColumnName="passwd" />
+                <ScalarProperty Name="username" ColumnName="username" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>

@@ -27,5 +27,6 @@ namespace APIMVC.Models
     
         public virtual DbSet<DESIGNATION> DESIGNATIONs { get; set; }
         public virtual DbSet<ANG_EMPLOYEE> ANG_EMPLOYEE { get; set; }
+        public virtual DbSet<PASSWORD> PASSWORDs { get; set; }
     }
 }

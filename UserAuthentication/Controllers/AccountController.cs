@@ -220,6 +220,7 @@ namespace UserAuthentication.Controllers
             return Ok();
         }
 
+        /*
         // GET api/Account/ExternalLogin
         [OverrideAuthentication]
         [HostAuthentication(DefaultAuthenticationTypes.ExternalCookie)]
@@ -276,7 +277,7 @@ namespace UserAuthentication.Controllers
 
             return Ok();
         }
-
+        */
         // GET api/Account/ExternalLogins?returnUrl=%2F&generateState=true
         [AllowAnonymous]
         [Route("ExternalLogins")]
@@ -318,17 +319,38 @@ namespace UserAuthentication.Controllers
             return logins;
         }
 
-        // POST api/Account/Register
+        // POST api/user/Register
+        [HttpPost]
         [AllowAnonymous]
-        [Route("Register")]
-        public async Task<IHttpActionResult> Register(RegisterBindingModel model)
+        [Route("api/user/Register")]
+        public IdentityResult Register(RegisterBindingModel model)
+        {
+            var userStore =new UserStore<ApplicationUser>(new ApplicationDbContext());
+            var manager = new UserManager<ApplicationUser>(userStore);
+            var user = new ApplicationUser() { UserName = model.UserName, Email = model.Email };
+            user.FirstName = model.FirstName;
+            user.LastName = model.LastName;
+            manager.PasswordValidator = new PasswordValidator
+            {
+                RequiredLength = 3
+            };
+            IdentityResult result = manager.Create(user, model.Password);
+            return result;
+            
+        }
+
+        // POST api/Account/Register
+        [HttpPost]
+        [AllowAnonymous]
+        [Route("RegisterApp")]
+        public async Task<IHttpActionResult> RegisterApp(RegisterBindingModel model)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var user = new ApplicationUser() { UserName = model.Email, Email = model.Email };
+            var user = new ApplicationUser() { UserName = model.UserName, Email = model.Email};
 
             IdentityResult result = await UserManager.CreateAsync(user, model.Password);
 
@@ -483,6 +505,23 @@ namespace UserAuthentication.Controllers
                 _random.GetBytes(data);
                 return HttpServerUtility.UrlTokenEncode(data);
             }
+        }
+
+        [HttpGet]
+        [Route("api/GetUserClaims")]
+        public AccountModel GetUserClaims()
+        {
+            var identityClaims = (ClaimsIdentity)User.Identity;
+            IEnumerable<Claim> claims = identityClaims.Claims;
+            AccountModel model = new AccountModel()
+            {
+                UserName = identityClaims.FindFirst("UserName").Value,
+                Email = identityClaims.FindFirst("Email").Value,
+                FirstName = identityClaims.FindFirst("FirstName").Value,
+                LastName = identityClaims.FindFirst("LastName").Value,
+                LoggedOn = identityClaims.FindFirst("LoggedOn").Value,
+            };
+            return model;
         }
 
         #endregion

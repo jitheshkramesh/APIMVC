@@ -8,6 +8,7 @@ using System.IO;
 using EFMDataAccessModel;
 using System.Web;
 using System.Web.Http.Cors;
+using System.Data.Entity;
 
 namespace APIMVC.Controllers
 {
@@ -214,15 +215,9 @@ namespace APIMVC.Controllers
             }
         }
 
-        [HttpGet]
-        [Route("api/TTList")]
-        public HttpResponseMessage TTList()
-        {
-            using (OVODEntities entities = new OVODEntities())
-            {
-                return Request.CreateResponse(HttpStatusCode.OK, entities.TTMASTs.ToList());
-            }
-        }
+        
+
+       
 
 
     }
