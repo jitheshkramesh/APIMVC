@@ -11,50 +11,19 @@ namespace AngApp
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-    using System.ComponentModel.DataAnnotations.Schema;
-    using System.Web;
-
+    
     public partial class Item
     {
-        [Display(Name = "Id :")]
         public long Item_Id { get; set; }
-
-        [NotMapped]
-        public HttpPostedFileBase Upload_Image { get; set; }
-
-        [Required(ErrorMessage = "This field is required")]
-        [Display(Name = "Code :")]
         public string Item_Code { get; set; }
-
-        [Required(ErrorMessage = "This field is required")]
-        [Display(Name = "Description :")]
         public string Item_Desc { get; set; }
-
-        [Display(Name = "Price :")]
         public Nullable<decimal> Item_Price { get; set; }
-
-        [Required(ErrorMessage = "This field is required")]
-        [Display(Name = "Category :")]
         public string Item_Category { get; set; }
-
-        [Display(Name = "Quantity :")]
         public Nullable<decimal> Item_Qty { get; set; }
-
-        [Display(Name = "Manu.Date :")]
-        public DateTime Item_Date { get; set; }
-
-        [Display(Name = "Expiry Date :")]
-        public DateTime Item_Expiry { get; set; }
-
-        [Display(Name = "Image Path :")]
-        public string Item_Image { get; set; }
-
-        [Display(Name = "Inactive :")]
+        public Nullable<System.DateTime> Item_Date { get; set; }
+        public Nullable<System.DateTime> Item_Expiry { get; set; }
         public Nullable<bool> Item_Inactive { get; set; }
-
-
-
+        public string Item_Image { get; set; }
         public Nullable<int> Cat_Id { get; set; }
     }
 }

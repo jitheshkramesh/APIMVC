@@ -32,5 +32,7 @@ namespace EFMDataAccessModel
         public virtual DbSet<ANG_EMPLOYEE> ANG_EMPLOYEE { get; set; }
         public virtual DbSet<DT_HRPAYADJ> DT_HRPAYADJ { get; set; }
         public virtual DbSet<PaymentDetail> PaymentDetails { get; set; }
+        public virtual DbSet<Participant> Participants { get; set; }
+        public virtual DbSet<Question> Questions { get; set; }
     }
 }

@@ -48,6 +48,36 @@ namespace AngApp.Controllers
             return View(payadjh);
         }
 
+        [HttpPost]
+        public ActionResult De_PayrollAdjDetails(string DocNo = "")
+        {
+            if (DocNo != "")
+            {
+                using (OVODEntities5 dbContext = new OVODEntities5())
+                {
+                    var entryPoint = (from ep in dbContext.HD_HRPAYADJ
+                                      join e in dbContext.DT_HRPAYADJ on ep.PA_ID equals e.PA_ID
+                                      join t in dbContext.TTMASTs on e.TT_ID equals t.TT_ID
+                                      join m in dbContext.EMPLOYEEs on e.EM_ID equals m.EM_ID
+                                      where ep.PA_DOCNO == DocNo
+                                      select new
+                                      {
+                                          m.EM_ID,
+                                          m.EM_NAME,
+                                          t.TT_ID,
+                                          t.TT_DESC,
+                                          e.PAD_QTY,
+                                          e.PAD_RATE,
+                                          e.PAD_AMT,
+                                          e.PAD_REMARKS,
+                                          e.PAD_ID
+                                      }).ToList();
+                    return Json(new { data = entryPoint }, JsonRequestBehavior.AllowGet);
+                }
+            }
+            return Json(new { data ="" }, JsonRequestBehavior.AllowGet);
+        }
+
         public ActionResult PayadjSave(string PA_DOCNO, string PA_DOCDATE, string PA_HEADER, string PA_TITLE, string PA_MONTH, string PA_YEAR, DT_HRPAYADJ[] det)
         {
             int DocId;
@@ -246,6 +276,46 @@ namespace AngApp.Controllers
         [HttpGet]
         public ActionResult Invoice()
         {
+            return View();
+        }
+
+        [HttpGet]
+        public ActionResult Leave()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ActionName("Leave")]
+        public ActionResult Post_Leave(DT_LEAVE model)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    using (OVODEntities5 db = new OVODEntities5())
+                    {
+                        DT_LEAVE lv = new DT_LEAVE()
+                        {
+                            LV_DOC_DATE = model.LV_DOC_DATE,
+                            LV_DOC_NO = model.LV_DOC_NO,
+                            EMP_ID = model.EMP_ID,
+                            TT_ID = model.TT_ID,
+                            LV_EMAIL = model.LV_EMAIL,
+                            LV_DT_FROM = model.LV_DT_FROM,
+                            LV_DT_TO = model.LV_DT_TO
+                        };
+                        db.DT_LEAVE.Add(lv);
+                        db.SaveChanges();
+                    }
+                }
+                ViewBag.Message = "Record Saved Successfully.";
+            }
+            catch (Exception ex)
+            {
+
+                ViewBag.Message = "Error." + ex.Message.ToString() ;
+            }
             return View();
         }
     }

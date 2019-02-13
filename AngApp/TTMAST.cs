@@ -21,6 +21,7 @@ namespace AngApp
             this.DT_HRPAYADJ = new HashSet<DT_HRPAYADJ>();
             this.Emp_Doc_History = new HashSet<Emp_Doc_History>();
             this.Doc_History = new HashSet<Doc_History>();
+            this.DT_LEAVE = new HashSet<DT_LEAVE>();
         }
     
         public int TT_ID { get; set; }
@@ -44,5 +45,7 @@ namespace AngApp
         public virtual ICollection<Emp_Doc_History> Emp_Doc_History { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Doc_History> Doc_History { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<DT_LEAVE> DT_LEAVE { get; set; }
     }
 }

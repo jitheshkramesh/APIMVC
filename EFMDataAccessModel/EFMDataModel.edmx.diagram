@@ -12,6 +12,8 @@
         <AssociationConnector Association="OVODModel.FK_HD_HRPAYADJ_DT_HRPAYADJ" />
         <AssociationConnector Association="OVODModel.FK_TTMAST_DT_HRPAYADJ" />
         <EntityTypeShape EntityType="OVODModel.PaymentDetail" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="OVODModel.Participant" Width="1.5" PointX="0.75" PointY="3.75" />
+        <EntityTypeShape EntityType="OVODModel.Question" Width="1.5" PointX="2.75" PointY="3.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

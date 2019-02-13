@@ -47,5 +47,6 @@ namespace AngApp
         public virtual DbSet<DIAGNOSI> DIAGNOSIS { get; set; }
         public virtual DbSet<DRUG> DRUGs { get; set; }
         public virtual DbSet<Item> Items { get; set; }
+        public virtual DbSet<DT_LEAVE> DT_LEAVE { get; set; }
     }
 }

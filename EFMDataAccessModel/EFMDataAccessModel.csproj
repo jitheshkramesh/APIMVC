@@ -133,10 +133,16 @@
       <DependentUpon>EFMDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="HD_HRPAYADJS.cs" />
+    <Compile Include="Participant.cs">
+      <DependentUpon>EFMDataModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="PaymentDetail.cs">
       <DependentUpon>EFMDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Question.cs">
+      <DependentUpon>EFMDataModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="TTMAST.cs">
       <DependentUpon>EFMDataModel.tt</DependentUpon>
     </Compile>

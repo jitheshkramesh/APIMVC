@@ -34,16 +34,17 @@
                 "filter": false,
                 "orderMulti": false,
                 "ajax": {
-                    "url": "Trans/PayrollAdjdChklst",
+                    "url": "PayrollAdjdChklst",
                     "type": "POST",
                     "datatype": "Json"
                 },
                 "columns": [
                     {
                         "data": "PA_DOCNO", "Code": "PA_DOCNO", "autowidth": true,
-                        "mRender": function (data, type, full,meta) {
-                            return '<a href="/Trans/De_PayrollAdj/?DocNo=' + full.PA_DOCNO + '">' + full.PA_DOCNO  + '</a>';
-                        }},
+                        "mRender": function (data, type, full, meta) {
+                            return '<a href="/Trans/De_PayrollAdj/?DocNo=' + full.PA_DOCNO + '">' + full.PA_DOCNO + '</a>';
+                        }
+                    },
                     {
                         "data": "PA_DOCDATE", "autowidth": true, "type": 'date',
                         "render": function (value) {
@@ -58,12 +59,7 @@
                     { "data": "PA_MONTH", "Month": "PA_MONTH", "autowidth": true },
                     { "data": "PA_YEAR", "Year": "PA_YEAR", "autowidth": true },
                     { "data": "PA_HEADER", "Header": "PA_HEADER", "autowidth": true },
-                    { "data": "PA_TITLE", "Header": "PA_TITLE", "autowidth": true },
-                    {
-                        data: null,
-                        className: "center",
-                        defaultContent: '<a href="@Url.Action("De_PayrollAdj", "Trans", new { DocNo = " + data + " })">Edit</a>'
-                    }
+                    { "data": "PA_TITLE", "Header": "PA_TITLE", "autowidth": true }
                 ]
             });
         });

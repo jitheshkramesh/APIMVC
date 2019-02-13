@@ -1,21 +1,20 @@
-﻿using OfficeOpenXml;
-using System;
-using CrystalDecisions.CrystalReports.Engine;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-using AngApp.Models;
+﻿using AngApp.Models;
 using AngApp.ViewModel;
-using System.Web.Security;
+using CrystalDecisions.CrystalReports.Engine;
+using OfficeOpenXml;
+using PagedList;
+using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq.Dynamic;
 using System.IO;
-using System.Web.Optimization;
+using System.Linq;
+using System.Linq.Dynamic;
 using System.Net.Http;
-using PagedList;
-using PagedList.Mvc;
+using System.Web;
+using System.Web.Mvc;
+using System.Web.Security;
+
 
 namespace AngApp.Controllers
 {

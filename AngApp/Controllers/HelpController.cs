@@ -41,9 +41,19 @@ namespace AngApp.Controllers
         public JsonResult GetTT(string term)
         {
             return Json(db.TTMASTs.Where(c => c.TT_CODE.Contains(term) || c.TT_DESC.Contains(term) || c.TT_ID.ToString().Contains(term))
-                .Select(a => new { label = a.TT_ID + " / " + a.TT_CODE + " / " + a.TT_DESC, id = a.TT_ID, value = a.TT_CODE, desc=a.TT_DESC }),
+                .Select(a => new { label = a.TT_ID + " / " + a.TT_CODE + " / " + a.TT_DESC, id = a.TT_ID, value = a.TT_CODE, desc = a.TT_DESC }),
                 JsonRequestBehavior.AllowGet);
         }
-               
+
+        public JsonResult GetTTLve(string term)
+        {
+            return Json(db.TTMASTs
+                .Where(c => (c.TT_CODE.Contains(term) 
+                || c.TT_DESC.Contains(term) 
+                || c.TT_ID.ToString().Contains(term))&& c.TT_GROUP.ToString().ToUpper()=="L")
+                .Select(a => new { label = a.TT_ID + " / " + a.TT_CODE + " / " + a.TT_DESC, id = a.TT_ID, value = a.TT_CODE, desc = a.TT_DESC }),
+                JsonRequestBehavior.AllowGet);
+        }
+
     }
 }

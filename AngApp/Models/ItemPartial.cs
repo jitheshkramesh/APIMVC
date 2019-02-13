@@ -37,3 +37,11 @@ using System.ComponentModel.DataAnnotations;
             string Item_Image = "~/Files/Items/default.jpg";
         }
     }
+
+namespace AngApp
+{
+    public partial class Item
+    {
+        public HttpPostedFileBase Upload_Image { get; internal set; }
+    }
+}

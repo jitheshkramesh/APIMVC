@@ -4,6 +4,8 @@ using System.Data.Entity;
 using System.IO;
 using System.Linq;
 using System.Web.Mvc;
+using PagedList;
+using PagedList.Mvc;
 
 namespace AngApp.Controllers
 {
@@ -15,12 +17,20 @@ namespace AngApp.Controllers
             return View();
         }
 
-        public ActionResult ViewAll()
+        public ActionResult getAll()
         {
-            return View(getAllItem());
+            using (OVODEntities5 db = new OVODEntities5())
+            {
+                return Json(db.Items.ToList(), JsonRequestBehavior.AllowGet);
+            }
         }
 
-        IEnumerable<Item> getAllItem()
+        public ActionResult ViewAll(int?page)
+        {
+            return View(getAllItem(page));
+        }
+
+        IEnumerable<Item> getAllItem(int? page)
         {
             using (OVODEntities5 db = new OVODEntities5())
             {
@@ -60,14 +70,14 @@ namespace AngApp.Controllers
                     if (item.Item_Id == 0)
                     {
                         db.Items.Add(item);
-                        item.Item_Date = DateTime.Now;
-                        item.Item_Expiry = DateTime.Now.AddYears(2);
+                        //item.Item_Date = DateTime.Now;
+                        //item.Item_Expiry = DateTime.Now.AddYears(2);
                         db.SaveChanges();
                     }
                     else
                     {
-                        item.Item_Date = DateTime.Now;
-                        item.Item_Expiry = DateTime.Now.AddYears(2);
+                        //item.Item_Date = DateTime.Now;
+                        //item.Item_Expiry = DateTime.Now.AddYears(2);
                         db.Entry(item).State = EntityState.Modified;
                         db.SaveChanges();
 
@@ -75,7 +85,7 @@ namespace AngApp.Controllers
                 }
                 //ViewRenderer vw = new ViewRenderer();
                 //return Json(new { success = true, html = vw.RenderPartialView("ViewAll", getAllItem()), message = "Submitted Successfully" }, JsonRequestBehavior.AllowGet);
-                return Json(new { success = true, html = GlobalClass.RenderRazorViewToString( this, "ViewAll", getAllItem()), message = "Submitted Successfully" }, JsonRequestBehavior.AllowGet);
+                return Json(new { success = true, html = GlobalClass.RenderRazorViewToString(this, "ViewAll", getAllItem(null)), message = "Submitted Successfully" }, JsonRequestBehavior.AllowGet);
 
             }
             catch (Exception ex)
@@ -93,7 +103,7 @@ namespace AngApp.Controllers
                     Item item = db.Items.Where(x => x.Item_Id == id).FirstOrDefault();
                     db.Items.Remove(item);
                     db.SaveChanges();
-                    return Json(new { success = true, html = GlobalClass.RenderRazorViewToString(this, "ViewAll", getAllItem()), message = "Deleted Successfully" }, JsonRequestBehavior.AllowGet);
+                    return Json(new { success = true, html = GlobalClass.RenderRazorViewToString(this, "ViewAll", getAllItem(null)), message = "Deleted Successfully" }, JsonRequestBehavior.AllowGet);
                 }
             }
             catch (Exception ex)
@@ -101,5 +111,6 @@ namespace AngApp.Controllers
                 return Json(new { success = false, message = ex.Message }, JsonRequestBehavior.AllowGet);
             }
         }
+
     }
 }

@@ -53,17 +53,17 @@
             System.import('../Client/main.js').catch(function (err) { console.error(err); });
         </script>*@
 
-    <script src="../Scripts/jquery-3.3.1.min.js"></script>
-    <script src="../Scripts/bootstrap.min.js"></script>
+    @* 12-02-2019 <script src="../Scripts/jquery-3.3.1.min.js"></script>*@
+    @*<script src="../Scripts/bootstrap.min.js"></script>*@
     @*<link href="../Content/bootstrap.min.css" rel="stylesheet" />*@
     <link href="~/Content/alertifyjs/alertify.min.css" rel="stylesheet" />
     <link href="~/Content/alertifyjs/themes/default.min.css" rel="stylesheet" />
     <link href="~/Content/Site.css" rel="stylesheet" />
-    <script type="text/javascript">
+    @*<script type="text/javascript">
         $(function () {
             $("input:text.date").datepicker({ dateFormat: "dd/mm/yy" });
         })
-    </script>
+    </script>*@
 
   
 </head>
@@ -391,9 +391,9 @@
                         <ul class="sub">
                             <li>@Html.ActionLink("Country List", "CountryList", "Home")</li>
                             <li>@Html.ActionLink("Department List", "DepartmentList", "Home")</li>
-                            <li>@Html.ActionLink("Designation List (API)", "Index", "Designation")</li>
-                            @*<li>@Html.ActionLink("Employee List Old", "EmployeeList", "Home")</li>
-                                <li>@Html.ActionLink("Employee List", "", "Home")</li>*@
+                            @*<li>@Html.ActionLink("Designation List (API)", "Index", "Designation")</li>
+                                <li>@Html.ActionLink("Employee List Old", "EmployeeList", "Home")</li>
+                                    <li>@Html.ActionLink("Employee List", "", "Home")</li>*@
                             <li>@Html.ActionLink("Employee List JQuery", "GetEmployeeLstJQuery", "Home")</li>
                             <li>@Html.ActionLink("Multiple Data", "MulitpleData", "Home")</li>
                         </ul>
@@ -405,7 +405,8 @@
                             <span class="menu-arrow arrow_carrot-right"></span>
                         </a>
                         <ul class="sub">
-                            <li>@Html.ActionLink("Payroll Adjustment Entry", "De_PayrollAdj", "Trans")</li>
+                            <li>@Html.ActionLink("Payroll Adjustment", "De_PayrollAdj", "Trans")</li>
+                            <li>@Html.ActionLink("Leave", "Leave", "Trans")</li>
                         </ul>
                     </li>
                     <li class="sub-menu">
@@ -617,11 +618,11 @@
     <div class="loaderbody" id="loaderbody">
         <div class="loader"></div>
     </div>
-    <script src="~/Scripts/alertify.min.js"></script>
-    <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.9/jquery.validate.min.js"></script>
-    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
-    @RenderSection("scripts", required: false)
     <script src="~/Scripts/Scripts.js"></script>
+    <script src="~/Scripts/alertify.min.js"></script>
+    @*<script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.9/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>*@
+    @RenderSection("scripts", required: false)
 </body>
 
 </html>

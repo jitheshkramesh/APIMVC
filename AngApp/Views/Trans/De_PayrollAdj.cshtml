@@ -53,21 +53,21 @@
                             Doc.Date :
                         </label>
                         <div class="col-md-2">
-                                    @*<input type="text" id="PA_DOCDATE" name="PA_DOCDATE"
-                                           value="@ViewBag.DocDate" placeholder="Doc.Date"
-                                           class="form-control datepicker2" />*@
-                                    <input type="text" id="PA_DOCDATE" name="PA_DOCDATE"
-                                           value="@ViewBag.DocDate" placeholder="Doc.Date"
-                                           class="form-control" />
-                                                            </div>
-                            @*<div class="form-group">
-                                    <div class='input-group date' id='datetimepicker1'>
-                                        <input type='text' class="form-control" />
-                                        <span class="input-group-addon">
-                                            <span class="glyphicon glyphicon-calendar"></span>
-                                        </span>
-                                    </div>
-                                </div>*@
+                            @*<input type="text" id="PA_DOCDATE" name="PA_DOCDATE"
+                                value="@ViewBag.DocDate" placeholder="Doc.Date"
+                                class="form-control datepicker2" />*@
+                            <input type="text" id="PA_DOCDATE" name="PA_DOCDATE"
+                                   value="@ViewBag.DocDate" placeholder="Doc.Date"
+                                   class="form-control" />
+                        </div>
+                        @*<div class="form-group">
+                                <div class='input-group date' id='datetimepicker1'>
+                                    <input type='text' class="form-control" />
+                                    <span class="input-group-addon">
+                                        <span class="glyphicon glyphicon-calendar"></span>
+                                    </span>
+                                </div>
+                            </div>*@
                     </div>
                     <div class="row margin-top-05">
                         <label class="control-label col-md-2">
@@ -189,6 +189,7 @@
                         <th style="width:20%">TT.Desc.</th>
                         <th style="width:5%" class="text-right">Quantity</th>
                         <th style="width:5%" class="text-right">Rate</th>
+                        <th style="width:5%" class="text-right">Price</th>
                         <th style="width:30%" class="text-left">Remarks</th>
                         <th style="width:5%"></th>
                     </tr>
@@ -202,22 +203,27 @@
         <button type="reset" class="btn btn-default" data-dismiss="modal">Close</button>
         <button id="saveData" type="submit" class="btn btn-danger">Save</button>
     </div>
+
 </form>
 
 
-@section scripts{
+@section scripts
+    {
 
-    <script>
+
+    <script type="text/javascript">
         $(document).ready(function () {
             $('input[id$=PA_DOCDATE]').datepicker({
                 dateFormat: "dd/mm/yy",
                 changeMonth: true,
                 changeYear: true,
                 yearRange: "1950:2020",
-                buttonImageOnly: true});
+                buttonImageOnly: true
+            });
         });
 
-         //Add Multiple salary.
+
+        //Add Multiple salary.
         $("#addToList").click(function (e) {
             e.preventDefault();
 
@@ -229,13 +235,14 @@
                 TTDesc = $("#TTDesc").val(),
                 PAD_QTY = $("#PAD_QTY").val(),
                 PAD_RATE = $("#PAD_RATE").val(),
+                PAD_PRICE = PAD_QTY * PAD_RATE,
                 PAD_REMARKS = $("#PAD_REMARKS").val(),
                 detailsTableBody = $("#detailsTable tbody");
-
-            var SalItem = '<tr><td class="text-left">' + EM_ID + '</td><td class="text-left">' + EM_NAME + '</td> <td class="text-left"> ' + TT_ID + '</td> <td class="text-left">' + TTDesc + '</td><td class="text-right"> ' + (parseFloat(PAD_QTY)) + '</td><td class="text-right"> ' + (parseFloat(PAD_RATE)) + '</td><td class="text-left"> ' + PAD_REMARKS + '</td> <td class="text-left"><a data-itemId="0" href="#" class="deleteItem">Remove</a></td></tr > ';
+            var SalItem = '<tr><td>' + EM_ID + '</td><td>' + EM_NAME + '</td><td>' + TT_ID + '</td><td>' + TTDesc + '</td><td>' + PAD_QTY + '</td><td>' + PAD_RATE + '</td><td>' + PAD_PRICE + '</td><td>' + PAD_REMARKS + '</td></tr>';
             detailsTableBody.append(SalItem);
             clearItem();
         });
+
         //After Add A New salary In The List, Clear Clean The Form For Add More salary.
         function clearItem() {
             $("#EM_ID").val('');
@@ -246,6 +253,7 @@
             $("#PAD_RATE").val('');
             $("#PAD_REMARKS").val('');
         }
+
         // After Add A New salary In The List, If You Want, You Can Remove It.
         $(document).on('click', 'a.deleteItem', function (e) {
             e.preventDefault();
@@ -256,6 +264,7 @@
                 });
             }
         });
+
         //After Click Save Button Pass All Data View To Controller For Save Database
         function saveData(data) {
             return $.ajax({
@@ -263,7 +272,7 @@
                 dataType: 'json',
                 type: 'POST',
                 url: "/Trans/PayadjSave",
-                data: da - ta,
+                data: data,
                 success: function (result) {
                     alert(result);
                     location.reload();
@@ -273,6 +282,7 @@
                 }
             });
         }
+
         //Collect Multiple salary List For Pass To Controller
         $("#saveData").click(function (e) {
             e.preventDefault();
@@ -311,6 +321,52 @@
         });
     </script>
 
+    <script>
+        $(document).ready(function () {
+
+            jQuery.support.cors = true;
+
+            $.ajax(
+                {
+                    type: "POST",
+                    url: '/Trans/De_PayrollAdjDetails/?DocNo=' + $("#PA_DOCNO").val(),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (data) {
+                        console.log(data);
+                        var trHTML = '';
+                        $.each(data, function () {
+                            $.each(this, function (k, item) {
+                                trHTML = '<tr><td>' + item.EM_ID + '</td>';
+                                trHTML += '<td> ' + item.EM_NAME + '</td>';
+                                trHTML += '<td> ' + item.TT_ID + '</td>';
+                                trHTML += '<td> ' + item.TT_DESC + '</td>';
+                                trHTML += '<td> ' + item.PAD_QTY + '</td>';
+                                trHTML += '<td> ' + item.PAD_RATE + '</td>';
+                                trHTML += '<td> ' + item.PAD_AMT + '</td>';
+                                trHTML += '<td> ' + item.PAD_REMARKS + '</td>';
+                                trHTML += ' <td><a class="btn btn-danger deleteRowButton"><i class="fas fa-trash-o fa-lg"></i></a></td></tr> ';
+                                $('#detailsTable').append(trHTML);
+                            });
+                        });
+
+
+                    },
+
+                    error: function (msg) {
+
+                        alert(msg.responseText);
+                    }
+                });
+        });
+
+    </script>
+
+    <script type="text/javascript">
+        $('.table tbody').on('click', '.deleteRowButton', function () {
+            $(this).closest('tr').next().remove();
+        })
+    </script>
 
     <script type="text/javascript">
         $(function () {
@@ -370,80 +426,8 @@
 
 
 
-    @*<script type="text/javascript">
 
-        $(document).ready(function () {
-
-            $("#GetCustomers").click(function () {
-
-                $("#detailsTable tbody tr").remove();
-
-                $.ajax({
-
-                    type: 'POST',
-
-                    url: '@Url.Action("PayrollAdjdGrdDetails")',
-                    dataType: 'json',
-                    data: { DocNo: $("#PA_DOCNO").val() },
-                    success: function (data) {
-                        var items = '';
-                        $.each(data, function (i, item) {
-
-                            var rows = '<tr><td class="text-left">' + item.EM_ID + '</td><td class="text-left">' + item.EM_NAME + '</td><td class="text-left">' + item.TT_ID + '</td><td class="text-left">' + item.TT_DESC + '</td><td class="text-right">' + item.PAD_QTY + '</td><td class="text-right">' + item.PAD_RATE + '</td><td class="text-left">' + item.PAD_REMARKS + '</td><td class="text-left"><a data-itemId="0" href="#" class="deleteItem">Remove</a></td></tr>';
-                            $('#detailsTable tbody').append(rows);
-                        });
-
-                    },
-                    error: function (ex) {
-                        var r = jQuery.parseJSON(response.responseText);
-                        alert("Message: " + r.Message);
-                        alert("StackTrace: " + r.StackTrace);
-                        alert("ExceptionType: " + r.ExceptionType);
-                    }
-                });
-                return false;
-            });
-        });
-
-            </script>*@
-
-
-
-    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
-
-    <script type="text/javascript">
-
-$(document).ready(function () {
-
-        $.ajax({
-
-            type: 'POST',
-
-            url: '@Url.Action("PayrollAdjdGrdDetails")',
-            dataType: 'json',
-            data: { DocNo: $("#PA_DOCNO").val() },
-            success: function (data) {
-                var items = '';
-                $.each(data, function (i, item) {
-
-                    var rows = '<tr><td class="text-left">' + item.EM_ID + '</td><td class="text-left">' + item.EM_NAME + '</td><td class="text-left">' + item.TT_ID + '</td><td class="text-left">' + item.TT_DESC + '</td><td class="text-right">' + item.PAD_QTY + '</td><td class="text-right">' + item.PAD_RATE + '</td><td class="text-left">' + item.PAD_REMARKS + '</td><td class="text-left"><a data-itemId="0" href="#" class="deleteItem">Remove</a></td></tr>';
-                    $('#detailsTable tbody').append(rows);
-                });
-
-            },
-            error: function (ex) {
-                var r = jQuery.parseJSON(response.responseText);
-                alert("Message: " + r.Message);
-                alert("StackTrace: " + r.StackTrace);
-                alert("ExceptionType: " + r.ExceptionType);
-            }
-        });
-        return false;
-    });
-
-    </script>
 }
 
-@*<input type="submit" id="GetCustomers" value="Submit" />*@
 
 

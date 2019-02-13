@@ -47,6 +47,16 @@
           <Property Name="PA_DOCNO" Type="varchar" MaxLength="10" />
           <Property Name="GTOTAL" Type="decimal" Precision="18" Scale="3" />
         </EntityType>
+        <EntityType Name="Participant">
+          <Key>
+            <PropertyRef Name="ParticipantID" />
+          </Key>
+          <Property Name="ParticipantID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" />
+          <Property Name="Email" Type="varchar" MaxLength="50" />
+          <Property Name="Score" Type="int" />
+          <Property Name="TimeSpent" Type="int" />
+        </EntityType>
         <EntityType Name="PaymentDetails">
           <Key>
             <PropertyRef Name="PMId" />
@@ -56,6 +66,19 @@
           <Property Name="CardNumber" Type="varchar" MaxLength="16" Nullable="false" />
           <Property Name="ExpirationDate" Type="varchar" MaxLength="5" Nullable="false" />
           <Property Name="CVV" Type="varchar" MaxLength="3" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Question">
+          <Key>
+            <PropertyRef Name="QnID" />
+          </Key>
+          <Property Name="QnID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Qn" Type="varchar" MaxLength="2500" />
+          <Property Name="ImageName" Type="varchar" MaxLength="50" />
+          <Property Name="Option1" Type="varchar" MaxLength="500" />
+          <Property Name="Option2" Type="varchar" MaxLength="500" />
+          <Property Name="Option3" Type="varchar" MaxLength="500" />
+          <Property Name="Option4" Type="varchar" MaxLength="500" />
+          <Property Name="Answer" Type="int" />
         </EntityType>
         <EntityType Name="TTMAST">
           <Key>
@@ -102,7 +125,9 @@
           <EntitySet Name="ANG_EMPLOYEE" EntityType="Self.ANG_EMPLOYEE" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DT_HRPAYADJ" EntityType="Self.DT_HRPAYADJ" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="HD_HRPAYADJ" EntityType="Self.HD_HRPAYADJ" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Participant" EntityType="Self.Participant" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PaymentDetails" EntityType="Self.PaymentDetails" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Question" EntityType="Self.Question" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TTMAST" EntityType="Self.TTMAST" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_HD_HRPAYADJ_DT_HRPAYADJ" Association="Self.FK_HD_HRPAYADJ_DT_HRPAYADJ">
             <End Role="HD_HRPAYADJ" EntitySet="HD_HRPAYADJ" />
@@ -131,6 +156,8 @@
             <End Role="DT_HRPAYADJ" EntitySet="DT_HRPAYADJ" />
           </AssociationSet>
           <EntitySet Name="PaymentDetails" EntityType="OVODModel.PaymentDetail" />
+          <EntitySet Name="Participants" EntityType="OVODModel.Participant" />
+          <EntitySet Name="Questions" EntityType="OVODModel.Question" />
           </EntityContainer>
         <EntityType Name="TTMAST">
           <Key>
@@ -229,6 +256,29 @@
           <Property Name="ExpirationDate" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
           <Property Name="CVV" Type="String" Nullable="false" MaxLength="3" FixedLength="false" Unicode="false" />
         </EntityType>
+        <EntityType Name="Participant">
+          <Key>
+            <PropertyRef Name="ParticipantID" />
+          </Key>
+          <Property Name="ParticipantID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Score" Type="Int32" />
+          <Property Name="TimeSpent" Type="Int32" />
+        </EntityType>
+        <EntityType Name="Question">
+          <Key>
+            <PropertyRef Name="QnID" />
+          </Key>
+          <Property Name="QnID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Qn" Type="String" MaxLength="2500" FixedLength="false" Unicode="false" />
+          <Property Name="ImageName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Option1" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="Option2" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="Option3" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="Option4" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="Answer" Type="Int32" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -306,6 +356,31 @@
                 <ScalarProperty Name="CardNumber" ColumnName="CardNumber" />
                 <ScalarProperty Name="CardOwnerName" ColumnName="CardOwnerName" />
                 <ScalarProperty Name="PMId" ColumnName="PMId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Participants">
+            <EntityTypeMapping TypeName="OVODModel.Participant">
+              <MappingFragment StoreEntitySet="Participant">
+                <ScalarProperty Name="TimeSpent" ColumnName="TimeSpent" />
+                <ScalarProperty Name="Score" ColumnName="Score" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ParticipantID" ColumnName="ParticipantID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Questions">
+            <EntityTypeMapping TypeName="OVODModel.Question">
+              <MappingFragment StoreEntitySet="Question">
+                <ScalarProperty Name="Answer" ColumnName="Answer" />
+                <ScalarProperty Name="Option4" ColumnName="Option4" />
+                <ScalarProperty Name="Option3" ColumnName="Option3" />
+                <ScalarProperty Name="Option2" ColumnName="Option2" />
+                <ScalarProperty Name="Option1" ColumnName="Option1" />
+                <ScalarProperty Name="ImageName" ColumnName="ImageName" />
+                <ScalarProperty Name="Qn" ColumnName="Qn" />
+                <ScalarProperty Name="QnID" ColumnName="QnID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

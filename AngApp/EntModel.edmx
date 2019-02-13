@@ -93,6 +93,19 @@ warning 6002: The table/view 'OVOD.dbo.DEPARTMENT' does not have a primary key d
           <Property Name="IT_RATE" Type="decimal" Precision="18" Scale="3" />
           <Property Name="IT_AMT" Type="decimal" Precision="18" Scale="3" />
         </EntityType>
+        <EntityType Name="DT_LEAVE">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="LV_DOC_NO" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="LV_DOC_DATE" Type="datetime" />
+          <Property Name="EMP_ID" Type="int" />
+          <Property Name="TT_ID" Type="int" />
+          <Property Name="LV_DT_FROM" Type="datetime" />
+          <Property Name="LV_DT_TO" Type="datetime" />
+          <Property Name="LV_EMAIL" Type="nvarchar" MaxLength="150" />
+        </EntityType>
         <EntityType Name="Emp_Doc_History">
           <Key>
             <PropertyRef Name="id" />
@@ -362,6 +375,18 @@ warning 6002: The table/view 'OVOD.dbo.VW_HD_HRPAYADJ' does not have a primary k
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_DT_LEAVE_DT_LEAVE">
+          <End Role="TTMAST" Type="Self.TTMAST" Multiplicity="0..1" />
+          <End Role="DT_LEAVE" Type="Self.DT_LEAVE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TTMAST">
+              <PropertyRef Name="TT_ID" />
+            </Principal>
+            <Dependent Role="DT_LEAVE">
+              <PropertyRef Name="TT_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Emp_Doc_History_ANG_EMPLOYEE">
           <End Role="ANG_EMPLOYEE" Type="Self.ANG_EMPLOYEE" Multiplicity="0..1" />
           <End Role="Emp_Doc_History" Type="Self.Emp_Doc_History" Multiplicity="*" />
@@ -466,6 +491,7 @@ warning 6002: The table/view 'OVOD.dbo.VW_HD_HRPAYADJ' does not have a primary k
           <EntitySet Name="DRUG" EntityType="Self.DRUG" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DT_HRPAYADJ" EntityType="Self.DT_HRPAYADJ" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DT_INVOICE" EntityType="Self.DT_INVOICE" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DT_LEAVE" EntityType="Self.DT_LEAVE" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Emp_Doc_History" EntityType="Self.Emp_Doc_History" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EMPLOYEE" EntityType="Self.EMPLOYEE" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EMPSAL" EntityType="Self.EMPSAL" Schema="dbo" store:Type="Tables" />
@@ -570,6 +596,10 @@ warning 6002: The table/view 'OVOD.dbo.VW_HD_HRPAYADJ' does not have a primary k
           <AssociationSet Name="FK_DT_INVOICE_HD_INVOICE" Association="Self.FK_DT_INVOICE_HD_INVOICE">
             <End Role="HD_INVOICE" EntitySet="HD_INVOICE" />
             <End Role="DT_INVOICE" EntitySet="DT_INVOICE" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DT_LEAVE_DT_LEAVE" Association="Self.FK_DT_LEAVE_DT_LEAVE">
+            <End Role="TTMAST" EntitySet="TTMAST" />
+            <End Role="DT_LEAVE" EntitySet="DT_LEAVE" />
           </AssociationSet>
           <AssociationSet Name="FK_Emp_Doc_History_ANG_EMPLOYEE" Association="Self.FK_Emp_Doc_History_ANG_EMPLOYEE">
             <End Role="ANG_EMPLOYEE" EntitySet="ANG_EMPLOYEE" />
@@ -689,6 +719,11 @@ warning 6002: The table/view 'OVOD.dbo.VW_HD_HRPAYADJ' does not have a primary k
             <End Role="DRUG" EntitySet="DRUGs" />
           </AssociationSet>
           <EntitySet Name="Items" EntityType="OVODModel.Item" />
+          <EntitySet Name="DT_LEAVE" EntityType="OVODModel.DT_LEAVE" />
+          <AssociationSet Name="FK_DT_LEAVE_DT_LEAVE" Association="OVODModel.FK_DT_LEAVE_DT_LEAVE">
+            <End Role="TTMAST" EntitySet="TTMASTs" />
+            <End Role="DT_LEAVE" EntitySet="DT_LEAVE" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="TTMAST">
           <Key>
@@ -710,6 +745,7 @@ warning 6002: The table/view 'OVOD.dbo.VW_HD_HRPAYADJ' does not have a primary k
           <NavigationProperty Name="DT_HRPAYADJ" Relationship="OVODModel.FK_TTMAST_DT_HRPAYADJ" FromRole="TTMAST" ToRole="DT_HRPAYADJ" />
           <NavigationProperty Name="Emp_Doc_History" Relationship="OVODModel.FK_Emp_Doc_History_TTMAST" FromRole="TTMAST" ToRole="Emp_Doc_History" />
           <NavigationProperty Name="Doc_History" Relationship="OVODModel.FK_Doc_History_TTMAST" FromRole="TTMAST" ToRole="Doc_History" />
+          <NavigationProperty Name="DT_LEAVE" Relationship="OVODModel.FK_DT_LEAVE_DT_LEAVE" FromRole="TTMAST" ToRole="DT_LEAVE" />
         </EntityType>
         <EntityType Name="DEPARTMENT">
           <Key>
@@ -1145,6 +1181,32 @@ warning 6002: The table/view 'OVOD.dbo.VW_HD_HRPAYADJ' does not have a primary k
           <Property Name="Item_Image" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="Cat_Id" Type="Int32" />
         </EntityType>
+        <EntityType Name="DT_LEAVE">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="LV_DOC_NO" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="LV_DOC_DATE" Type="DateTime" Precision="3" />
+          <Property Name="EMP_ID" Type="Int32" />
+          <Property Name="TT_ID" Type="Int32" />
+          <Property Name="LV_DT_FROM" Type="DateTime" Precision="3" />
+          <Property Name="LV_DT_TO" Type="DateTime" Precision="3" />
+          <Property Name="LV_EMAIL" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="TTMAST" Relationship="OVODModel.FK_DT_LEAVE_DT_LEAVE" FromRole="DT_LEAVE" ToRole="TTMAST" />
+        </EntityType>
+        <Association Name="FK_DT_LEAVE_DT_LEAVE">
+          <End Type="OVODModel.TTMAST" Role="TTMAST" Multiplicity="0..1" />
+          <End Type="OVODModel.DT_LEAVE" Role="DT_LEAVE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TTMAST">
+              <PropertyRef Name="TT_ID" />
+            </Principal>
+            <Dependent Role="DT_LEAVE">
+              <PropertyRef Name="TT_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1467,6 +1529,20 @@ warning 6002: The table/view 'OVOD.dbo.VW_HD_HRPAYADJ' does not have a primary k
                 <ScalarProperty Name="Item_Desc" ColumnName="Item_Desc" />
                 <ScalarProperty Name="Item_Code" ColumnName="Item_Code" />
                 <ScalarProperty Name="Item_Id" ColumnName="Item_Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DT_LEAVE">
+            <EntityTypeMapping TypeName="OVODModel.DT_LEAVE">
+              <MappingFragment StoreEntitySet="DT_LEAVE">
+                <ScalarProperty Name="LV_EMAIL" ColumnName="LV_EMAIL" />
+                <ScalarProperty Name="LV_DT_TO" ColumnName="LV_DT_TO" />
+                <ScalarProperty Name="LV_DT_FROM" ColumnName="LV_DT_FROM" />
+                <ScalarProperty Name="TT_ID" ColumnName="TT_ID" />
+                <ScalarProperty Name="EMP_ID" ColumnName="EMP_ID" />
+                <ScalarProperty Name="LV_DOC_DATE" ColumnName="LV_DOC_DATE" />
+                <ScalarProperty Name="LV_DOC_NO" ColumnName="LV_DOC_NO" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
